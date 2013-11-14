@@ -2433,4 +2433,8 @@
   <java-symbol type="integer" name="config_nightColorTemperature" />
   <java-symbol type="integer" name="config_outdoorAmbientLux" />
 
+  <!-- EdgeGesture service -->
+  <java-symbol type="dimen" name="edge_gesture_trigger_distance" />
+  <java-symbol type="dimen" name="edge_gesture_perpendicular_distance" />
+  <java-symbol type="dimen" name="edge_gesture_trigger_thickness" />
 </resources>
