@@ -31,8 +31,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
 import android.os.ResultReceiver;
-import android.os.UserHandle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.InputChannel;
 import android.view.inputmethod.EditorInfo;
@@ -69,17 +67,17 @@ class IInputMethodWrapper extends IInputMethod.Stub
     private static final int DO_SHOW_SOFT_INPUT = 60;
     private static final int DO_HIDE_SOFT_INPUT = 70;
     private static final int DO_CHANGE_INPUTMETHOD_SUBTYPE = 80;
-
+   
     final WeakReference<AbstractInputMethodService> mTarget;
     final Context mContext;
     final HandlerCaller mCaller;
     final WeakReference<InputMethod> mInputMethod;
     final int mTargetSdkVersion;
-
+    
     static class Notifier {
         boolean notified;
     }
-
+    
     // NOTE: we should have a cache of these.
     static final class InputMethodSessionCallbackWrapper implements InputMethod.SessionCallback {
         final Context mContext;
@@ -110,7 +108,7 @@ class IInputMethodWrapper extends IInputMethod.Stub
             }
         }
     }
-
+    
     public IInputMethodWrapper(AbstractInputMethodService context,
             InputMethod inputMethod) {
         mTarget = new WeakReference<AbstractInputMethodService>(context);
@@ -133,9 +131,6 @@ class IInputMethodWrapper extends IInputMethod.Stub
             return;
         }
 
-        boolean formalText = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.FORMAL_TEXT_INPUT, 0, UserHandle.USER_CURRENT_OR_SELF) == 1;
-
         switch (msg.what) {
             case DO_DUMP: {
                 AbstractInputMethodService target = mTarget.get();
@@ -155,7 +150,7 @@ class IInputMethodWrapper extends IInputMethod.Stub
                 args.recycle();
                 return;
             }
-
+            
             case DO_ATTACH_TOKEN: {
                 inputMethod.attachToken((IBinder)msg.obj);
                 return;
@@ -174,7 +169,6 @@ class IInputMethodWrapper extends IInputMethod.Stub
                         ? new InputConnectionWrapper(inputContext) : null;
                 EditorInfo info = (EditorInfo)args.arg2;
                 info.makeCompatible(mTargetSdkVersion);
-                info.formalTextInput(formalText);
                 inputMethod.startInput(ic, info);
                 args.recycle();
                 return;
@@ -186,7 +180,6 @@ class IInputMethodWrapper extends IInputMethod.Stub
                         ? new InputConnectionWrapper(inputContext) : null;
                 EditorInfo info = (EditorInfo)args.arg2;
                 info.makeCompatible(mTargetSdkVersion);
-                info.formalTextInput(formalText);
                 inputMethod.restartInput(ic, info);
                 args.recycle();
                 return;
@@ -227,7 +220,7 @@ class IInputMethodWrapper extends IInputMethod.Stub
         }
         if (target.checkCallingOrSelfPermission(android.Manifest.permission.DUMP)
                 != PackageManager.PERMISSION_GRANTED) {
-
+            
             fout.println("Permission Denial: can't dump InputMethodManager from from pid="
                     + Binder.getCallingPid()
                     + ", uid=" + Binder.getCallingUid());
