@@ -1050,7 +1050,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         // taken over the whole screen.
         boolean panic = mImmersiveModeConfirmation.onPowerKeyDown(interactive,
                 SystemClock.elapsedRealtime(), isImmersiveMode(mLastSystemUiFlags));
-        if (panic && !WindowManagerPolicyControl.isImmersiveFiltersActive()) {
+        if (panic) {
             mHandler.post(mHiddenNavPanic);
         }
 
