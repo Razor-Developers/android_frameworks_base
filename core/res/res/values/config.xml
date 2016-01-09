@@ -2168,8 +2168,12 @@
         string that's stored in 8-bit unpacked format) characters.-->
     <bool translatable="false" name="config_sms_decode_gsm_8bit_data">false</bool>
 
-    <!-- Package name providing WebView implementation. -->
-    <string name="config_webViewPackageName" translatable="false">com.android.webview</string>
+    <!-- Package name providing default WebView implementation. -->
+    <string name="config_webViewPackageName" translatable="false">com.google.android.webview</string>
+
+    <!-- Package name providing alternate WebView implementation.
+         Fall back to config_webViewPackageName if not available. -->
+    <string name="config_alternateWebViewPackageName" translatable="false">com.android.webview</string>
 
     <!-- If EMS is not supported, framework breaks down EMS into single segment SMS
          and adds page info " x/y". This config is used to set which carrier doesn't
@@ -2490,4 +2494,9 @@
     <string-array name="config_disabledComponents" translatable="false">
     </string-array>
 
+    <!-- Whether doze should invert colors for notifications. If the RRO theme causes
+    the NORMAL notification background to be dark and the text to be light, this boolean
+    needs to be set to false, to prevent the doze notifications from being light -->
+    <bool name="config_invert_colors_on_doze">true</bool>
+    
 </resources>
